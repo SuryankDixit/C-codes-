@@ -1,0 +1,80 @@
+
+#include <stdio.h>
+
+struct items
+{
+    int wt;
+    int val;
+    int ratio;
+};
+
+int main()
+{
+    printf("Enter number of items: ");
+    int n;
+    scanf("%d",&n);
+    struct items product[n];
+    
+    printf("Enter items's weight and their values in the form of weight then value seperated by a space\n");
+    
+    int i;
+    for(i=0;i<n;i++)
+    {
+       scanf(" %d",&product[i].wt);
+       scanf(" %d",&product[i].val);
+       product[i].ratio=(float)(product[i].val/product[i].wt);
+    }
+    
+    printf("Weight      value       Ratio\n");
+    for(int i=0;i<n;i++)
+    {
+        printf("%d          %d          %d",product[i].wt,product[i].val,product[i].ratio);
+        printf("\n");
+    }
+    
+    printf("Enter the total bag capacity for which you want to maximize the result :");
+    int total_wt;
+    scanf("%d",&total_wt);
+    
+    struct items temp;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n-i-1;j++)
+        {
+            if(product[j].ratio<product[j+1].ratio)
+            {
+                temp = product[j];
+                product[j] = product[j + 1];
+                product[j + 1] = temp;
+            }
+        }
+    }
+    
+    printf("Weight      value       Ratio\n");
+    for(int i=0;i<n;i++)
+    {
+        printf("%d          %d          %d",product[i].wt,product[i].val,product[i].ratio);
+        printf("\n");
+    }
+    
+    
+    int total_profit=0;
+    for(int i=0;i<n;i++)
+    {
+        if(total_wt<=product[i].wt)
+        {
+            total_wt-=product[i].wt;
+            total_profit+=product[i].val;
+        }
+        else
+        {
+            total_profit+=product[i].ratio * total_wt;
+            total_wt-=product[i].wt;
+        }
+        printf("%d  ",total_profit);
+    }
+    printf("\n Total profit = ");
+    printf("%d ",total_profit);
+    
+    return 0;
+}
