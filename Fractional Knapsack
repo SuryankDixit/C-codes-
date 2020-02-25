@@ -61,12 +61,13 @@ int main()
     int total_profit=0;
     for(int i=0;i<n;i++)
     {
-        if(total_wt<=product[i].wt)
+        if(total_wt>=product[i].wt)
         {
             total_wt-=product[i].wt;
             total_profit+=product[i].val;
         }
-        else
+
+        else if(total_wt<product[i].wt && total_wt>0)
         {
             total_profit+=product[i].ratio * total_wt;
             total_wt-=product[i].wt;
